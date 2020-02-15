@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Yamabikodama</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <meta name="viewport" content="width=device-width">
+  </head>
+
+  <body>
+      <header class="header">
+          <ul>
+            <li><a href="#">top</a></li>
+            <li><a href="#">SignUp</a></li>
+            <li><a href="#">login</a></li>
+          </ul>
+        </header>  
+    <%= yield %>
+    <footer>
+      <p>作成者 折原 龍太</p>
+      <p>作成日 20200215</p>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,35 @@
+<!-- パーシャルファイルであることを宣言するためにファイル名の先頭に_をつける -->
+<%# 画面に表示されるページ名はファイルごとにコーディングしておく %>
+
+<%# url: confirm_blogs_pathのurlオプションを与えることで、blogs#confirmを実行するように変更 %>
+<%# newアクションの時は確認画面を経由、editアクションの時は経由せずに更新できるようにしたい %>
+<%# newとeditのアクションを分岐させるため、ヘルパーメソッドを使いたい。form_withのurl指定をchoose_new_or_editメソッドと記述する %>
+<%= form_with(model: @word,local: true, url: choose_new_or_edit) do |f| %>
+<%# インスタンス変数.errosは@blogをバリデーションした際のエラー情報がまとめて入っています。@blogのsaveでバリデーションエラーが発生した際、Railsは@blogの中に発生したエラーの情報を詰め込んで返却します。エラーが起きた後のページで@word.errorsという処理を発生させれば、そこにエラー情報が発見できるというわけです。 %>
+  <% if @word.errors.any? %>
+  <%# if で条件分岐してあげることでエラーが存在するときだけ内部の記述を実行する %>
+  <div id="error_explanation">
+    <%# インスタンス変数.errors.countはバリデーションエラーの件数（バリデーションが許さなかった値の数）を表示します。 %>
+    <h2><%= @word.errors.count %>件のエラーがあります。</h2>
+    <ul>
+      <%# full_messagesは複数のエラーメッセージを表します。 %>
+      <%# ツイート一覧表示のときと同じく、eachメソッドでエラーメッセージ内容を展開する %>
+      <% @word.errors.full_messages.each do |msg| %>
+      <li><%= msg  %></li>
+      <% end %>
+    </ul>
+  </div>
+  <% end %>
+
+  <div class="word_content">
+    <%= f.label :content %>
+    <%= f.text_field :content %>
+  </div>
+  <%= f.submit %>
+<% end %>
+<%# バリデーションを実装しても、ユーザがエラー内容を把握できなければ意味がない機能となってしまう %>
+<%= link_to "ツイート一覧に戻る" ,words_path  %>
+
+<%# パーシャルとはViewの共通的なコードをまとめる、部分テンプレートのことである。
+リファクタリングとは冗長なコードや無駄な処理を改善することである。 %>
+<%# newとeditは違うアクション内から呼び出されるものですが、同じ記述を_formにまとめ、その_formをnewとeditのhtmlがそれぞれrenderで呼び出すことで、記述を共通化しています %>
